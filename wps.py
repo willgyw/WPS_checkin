@@ -1,6 +1,16 @@
 import requests
 import json
 
+# 参加打卡活动，第一次或是中间断了签到后需要重新参加活动，才能打开领取会员
+'''
+URL: http://zt.wps.cn/2018/clock_in/api/sign_up?member=wps
+header:{
+    sid:
+}
+get url 
+'''
+
+
 
 # wps接受邀请
 def wps_invite(sid: list, invite_userid: int) -> None:
@@ -12,7 +22,7 @@ def wps_invite(sid: list, invite_userid: int) -> None:
         }
         r = s.post(invite_url, headers=headers, data={
                    'invite_userid': invite_userid})
-        print("ID={}, 状态码: {}, 请求信息{}".format(index+1, r.status_code, r.text))
+        print("ID={}, 状态码: {}, 请求信息{}".format(str(index+1).zfill(2), r.status_code, r.text))
 
 
 
@@ -21,6 +31,8 @@ def wps_invite(sid: list, invite_userid: int) -> None:
 def wps_clockin(sid: str) -> None:
     getquestion_url = 'http://zt.wps.cn/2018/clock_in/api/get_question?member=wps'
     s = requests.session()
+    # 打卡签到需要参加活动
+   
     r = s.get(getquestion_url, headers={'sid': sid})
     '''
     {
@@ -70,9 +82,11 @@ def wps_clockin(sid: str) -> None:
     print("选择答案: {}".format(answer_id))
 
     answer_url = 'http://zt.wps.cn/2018/clock_in/api/answer?member=wps'
+    # 提交答案
     r = s.post(answer_url, headers={'sid': sid}, data={'answer': answer_id})
     resp = json.loads(r.text)
-    if resp['result'] == 'error':
+    # 答案错误
+    if resp['msg'] == 'wrong answer':
         print("答案不对，挨个尝试")
         for i in range(4):
             r = s.post(answer_url, headers={'sid': sid}, data={'answer': i+1})
@@ -82,7 +96,14 @@ def wps_clockin(sid: str) -> None:
                 print(r.text)
                 break
 
+    # 打卡签到
     clockin_url = 'http://zt.wps.cn/2018/clock_in/api/clock_in?member=wps'
     r = s.get(clockin_url, headers={'sid': sid})
     print("签到信息: {}".format(r.text))
-
+    resp = json.loads(r.text)
+    # 重新报名
+    if resp['msg'] == '前一天未报名':
+        print('前一天未报名，报名后第二天签到')
+        signup_url = 'http://zt.wps.cn/2018/clock_in/api/sign_up'
+        r=s.get(signup_url, headers={'sid': sid})
+        print(r.text)
