@@ -48,7 +48,7 @@ def wps_clockin(sid: str) -> None:
     getquestion_url = 'http://zt.wps.cn/2018/clock_in/api/get_question?member=wps'
     s = requests.session()
     # 打卡签到需要参加活动
-   
+    sid = "adwadjlka"
     r = s.get(getquestion_url, headers={'sid': sid})
     '''
     {
@@ -80,7 +80,11 @@ def wps_clockin(sid: str) -> None:
         '有，且无限次',
         '文档修复'
     }
-    resp = json.loads(r.text)
+    try:
+        resp = json.loads(r.text)
+    except Exception as e:
+        print("签到失败！！！ sid可能需要更新")
+        return
     # print(resp['data']['multi_select'])
     # 只做单选题 multi_select==1表示多选题
     while resp['data']['multi_select'] == 1:
