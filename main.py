@@ -30,6 +30,13 @@ def _wps_invite(data):
         print("    为{}邀请---↓".format(item['name']))
         wps_invite(sid=[], invite_userid=item['invite_userid'])
 
+def _docer_checkin(data):
+    sid = data['wps_checkin']
+    print("\n            ===模拟[稻壳会员]签到===")
+    for item in sid:
+        print("    为{}签到---↓".format(item['name']))
+        docer_checkin(item['sid'])
+
 
 def _youdao_checkin(data):
     print("\n\n           ===有道云笔记签到===")
@@ -42,12 +49,14 @@ def _youdao_checkin(data):
             f = open(sys.path[0]+'/data.json', 'w', encoding="utf8",)
             json.dump(data, f, ensure_ascii=False)
 
+
+
 if __name__ == '__main__':
     now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
 
     print("--------------------------"+now+"----------------------------")
     root_dir = os.path.split(os.path.realpath(__file__))[0]
-    f = open(root_dir+'\\data.json', 'r', encoding="utf8")
+    f = open(root_dir+'\\data1.json', 'r', encoding="utf8")
     data = json.load(f)
     f.close()
 

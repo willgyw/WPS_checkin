@@ -1,0 +1,62 @@
+# 稻壳会员签到
+
+> 稻壳会员的小程序签到有个
+
+### 请求签到题目
+
+header{
+sid: GET https://zt.wps.cn/2019/docer_sign_ppt/api/get_question
+Host: zt.wps.cn
+sid: V02S8fWiw86zsFg1oE5p4hCHAR6GPE000a4e69e2002508b828
+}
+
+request:
+{
+"result":"ok","data":{"answer":["\u7a3b\u58f3\u4f1a\u5458","QQ\u4f1a\u5458"],"correct":0,"question":"\u5728WPS\u514d\u8d39\u4e0b\u8f7d\u6a21\u677f\u65f6\u9700\u8981\u5f00\u901a\u4ec0\u4e48\u4f1a\u5458"}
+}
+
+### 签到
+POST https://zt.wps.cn/2019/docer_sign_ppt/api/checkin
+Host: zt.wps.cn
+sid: V02S8fWiw86zsFg1oE5p4hCHAR6GPE000a4e69e2002508b828
+wx-code: 每次提交都不一样，不知道怎么搞。
+
+data
+	is_question=1
+
+### 得到基本信息
+GET https://zt.wps.cn/2019/docer_sign_ppt/api/base_info
+Host: zt.wps.cn
+cookie{
+wps_sid=V02S8fWiw86zsFg1oE5p4hCHAR6GPE000a4e69e2002508b828
+}
+Response{"result":"ok","data":{"total_users":3492881,"total_ppts":"621","my_friends":0,"my_ppts":"1","week_record":[4],"is_checkin_today":true,"sum_days":1,"continue_days":1,"continue_days_weekly":1,"alarm_status":"enabled"}}
+
+### 在7:00-14:00签到不需要答题
+POST https://zt.wps.cn/2019/docer_sign_ppt/api/checkin
+data{
+is_question=0   # 不需要答题
+}
+Host: zt.wps.cn
+Wx-Code: 023NR5uM189ama1KHhrM1KKiuM1NR5uQ
+sid: V02SVQTmCq8rBp9g-XIHs3g1wAIDz4400a7207b3000b6c37b6
+第二次签到会报错
+Response:
+{"result":"error","data":"","msg":"error code"}
+
+
+### 分享秘钥
+GET https://zt.wps.cn/2019/docer_sign_ppt/api/share_key HTTP/1.1
+Host: zt.wps.cn
+Wx-Code: 0336iss81GEZ6M1RXUp81mSCs816issX
+sid: V02SVQTmCq8rBp9g-XIHs3g1wAIDz4400a7207b3000b6c37b6
+
+{"result":"ok","data":{"share_key":"f8fe165b6fb93f7a9761ca22f49b70fc"}}
+
+
+
+
+==============================================
+
+
+

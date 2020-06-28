@@ -10,6 +10,27 @@ header:{
 get url 
 '''
 
+# wps稻壳会员签到
+def docer_checkin(sid: str):
+    # 先检查今天是否签到过
+    base_info_url = "https://zt.wps.cn/2019/docer_sign_ppt/api/base_info"
+    sid = 'V02S8fWiw86zsFg1oE5p4hCHAR6GPE000a4e69e2002508b828'
+    WxCode = '011Jq1jn1G3NMo0oisjn1i3ojn1Jq1jQ'
+    s = requests.session()
+    r = s.get(base_info_url, headers={'sid': sid})
+    resp = json.loads(r.text)['data']
+    if 'is_checkin_today' not in resp:
+        print('签到失败！！！sid可能需要更新')
+        return
+    if resp.get('is_checkin_today', False):
+        print("今天已经签到过了")
+        return
+    # 7:00-14:00不需要答题
+
+    docer_checkin_url = "https://zt.wps.cn/2019/docer_sign_ppt/api/checkin"
+    r = s.post(docer_checkin_url, headers={'sid': sid, 'Wx-Code': WxCode}, data={'is_question':0})
+    resp = json.loads(r.text)
+    print(resp)
 
 
 # wps接受邀请
@@ -41,14 +62,11 @@ def wps_invite(sid: list, invite_userid: int) -> None:
         print("ID={}, 状态码: {}, 请求信息{}".format(str(index+1).zfill(2), r.status_code, r.text))
 
 
-
-
 # wps签到
 def wps_clockin(sid: str) -> None:
     getquestion_url = 'http://zt.wps.cn/2018/clock_in/api/get_question?member=wps'
     s = requests.session()
     # 打卡签到需要参加活动
-    sid = "adwadjlka"
     r = s.get(getquestion_url, headers={'sid': sid})
     '''
     {
