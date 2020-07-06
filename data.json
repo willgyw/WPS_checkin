@@ -3,7 +3,7 @@
         {
             "name": "冷月",
             "sid": "V02S8inde_fySn0hB7pyBHCZSibxqQc00aba72040010d28e24"
-        },
+        }
     ],
     "wps_invite": [
         {
@@ -11,5 +11,5 @@
             "invite_userid": 282234404,
             "sid": [ ]
         }
-    ],
+    ]
 }
