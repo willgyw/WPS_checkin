@@ -45,7 +45,7 @@ if __name__ == '__main__':
     print("--------------------------"+now+"----------------------------")
     root_dir = os.path.split(os.path.realpath(__file__))[0]
     print(root_dir)
-    f = open('./data.json', 'r', encoding="utf8")
+    f = open('./data.json', 'r', encoding="utf-8-sig")
     for line in f:
         print(line)
     data = json.load(f)
