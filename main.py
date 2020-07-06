@@ -46,9 +46,8 @@ if __name__ == '__main__':
     root_dir = os.path.split(os.path.realpath(__file__))[0]
     print(root_dir)
     f = open('./data.json', 'r', encoding="utf-8")
-    for line in f:
-        print(line)
     data = json.load(f)
+    print(data)
     f.close()
 
     _wps_checkin(data)
