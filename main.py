@@ -5,7 +5,6 @@ import time
 import json
 import sys
 import os
-from note163 import *
 from wps import *
 
 # 解决https访问警告
