@@ -1,0 +1,29 @@
+name: Auto_checkin
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: 0 7,10 * * *
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Python
+      run: |
+        python -m pip install --upgrade requests
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+      
+    - name: requirements
+      run: |
+        pip3 install -r requirements.txt
+    - name: 'Sign In'
+      run: |
+        python3 main.py
